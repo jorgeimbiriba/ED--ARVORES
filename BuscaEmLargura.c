@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
-// Estrutura de um nó da árvore binária
+// Estrutura de um nÃ³ da Ã¡rvore binÃ¡ria
 typedef struct Node {
     int data;
     struct Node *left;
@@ -19,32 +20,33 @@ typedef struct Queue {
     QUEUE_NODE *rear;
 } QUEUE;
 
-// Funções básicas da árvore binária
+// FunÃ§Ãµes bÃ¡sicas da Ã¡rvore binÃ¡ria
 NODE *criarNo(int valor);
 NODE *inserir(NODE *root, int valor);
 NODE *remover(NODE *root, int valor);
 NODE *buscar(NODE *root, int valor);
 int calcularAltura(NODE *root);
 
-// Funções de travessia
+// FunÃ§Ãµes de travessia
 void preOrder(NODE *root);
 void inOrder(NODE *root);
 void postOrder(NODE *root);
 void breadthFirstSearch(NODE *root);
 
-// Funções auxiliares para remoção
+// FunÃ§Ãµes auxiliares para remoÃ§Ã£o
 NODE *encontrarMinimo(NODE *root);
 
-// Funções auxiliares para fila (usada na BFS)
+// FunÃ§Ãµes auxiliares para fila (usada na BFS)
 QUEUE *criarFila();
 void enfileirar(QUEUE *fila, NODE *treeNode);
 NODE *desenfileirar(QUEUE *fila);
 int filaVazia(QUEUE *fila);
 
 int main() {
+    setlocale(LC_ALL,"Portuguese");
     NODE *root = NULL;
 
-    // Inserindo valores na árvore
+    // Inserindo valores na Ã¡rvore
     root = inserir(root, 50);
     root = inserir(root, 30);
     root = inserir(root, 70);
@@ -53,7 +55,7 @@ int main() {
     root = inserir(root, 60);
     root = inserir(root, 80);
 
-    printf("Busca Pré-ordem (Pre-order): ");
+    printf("Busca PrÃ©-ordem (Pre-order): ");
     preOrder(root);
     printf("\n");
 
@@ -61,7 +63,7 @@ int main() {
     inOrder(root);
     printf("\n");
 
-    printf("Busca Pós-ordem (Post-order): ");
+    printf("Busca PÃ³s-ordem (Post-order): ");
     postOrder(root);
     printf("\n");
 
@@ -73,30 +75,30 @@ int main() {
     int valorBuscado = 40;
     NODE *resultadoBusca = buscar(root, valorBuscado);
     if (resultadoBusca != NULL) {
-        printf("Valor %d encontrado na árvore.\n", valorBuscado);
+        printf("Valor %d encontrado na Ã¡rvore.\n", valorBuscado);
     } else {
-        printf("Valor %d não encontrado na árvore.\n", valorBuscado);
+        printf("Valor %d nÃ£o encontrado na Ã¡rvore.\n", valorBuscado);
     }
 
-    // Calculando a altura da árvore
-    printf("Altura da árvore: %d\n", calcularAltura(root));
+    // Calculando a altura da Ã¡rvore
+    printf("Altura da Ã¡rvore: %d\n", calcularAltura(root));
 
-    // Removendo um nó
-    printf("Removendo o valor 30 da árvore...\n");
+    // Removendo um nÃ³
+    printf("Removendo o valor 30 da Ã¡rvore...\n");
     root = remover(root, 30);
 
-    printf("Busca Em ordem (In-order) após remoção: ");
+    printf("Busca Em ordem (In-order) apÃ³s remoÃ§Ã£o: ");
     inOrder(root);
     printf("\n");
 
     return 0;
 }
 
-// Função para criar um novo nó
+// FunÃ§Ã£o para criar um novo nÃ³
 NODE *criarNo(int valor) {
     NODE *novoNo = (NODE *)malloc(sizeof(NODE));
     if (novoNo == NULL) {
-        printf("Erro: Memória insuficiente.\n");
+        printf("Erro: MemÃ³ria insuficiente.\n");
         exit(EXIT_FAILURE);
     }
     novoNo->data = valor;
@@ -105,7 +107,7 @@ NODE *criarNo(int valor) {
     return novoNo;
 }
 
-// Função para inserir um valor na árvore
+// FunÃ§Ã£o para inserir um valor na Ã¡rvore
 NODE *inserir(NODE *root, int valor) {
     if (root == NULL) {
         return criarNo(valor);
@@ -118,7 +120,7 @@ NODE *inserir(NODE *root, int valor) {
     return root;
 }
 
-// Função para remover um nó da árvore
+// FunÃ§Ã£o para remover um nÃ³ da Ã¡rvore
 NODE *remover(NODE *root, int valor) {
     if (root == NULL) {
         return NULL;
@@ -129,12 +131,12 @@ NODE *remover(NODE *root, int valor) {
     } else if (valor > root->data) {
         root->right = remover(root->right, valor);
     } else {
-        // Caso 1: Nó sem filhos
+        // Caso 1: NÃ³ sem filhos
         if (root->left == NULL && root->right == NULL) {
             free(root);
             return NULL;
         }
-        // Caso 2: Nó com um filho
+        // Caso 2: NÃ³ com um filho
         if (root->left == NULL) {
             NODE *temp = root->right;
             free(root);
@@ -145,7 +147,7 @@ NODE *remover(NODE *root, int valor) {
             free(root);
             return temp;
         }
-        // Caso 3: Nó com dois filhos
+        // Caso 3: NÃ³ com dois filhos
         NODE *minimo = encontrarMinimo(root->right);
         root->data = minimo->data;
         root->right = remover(root->right, minimo->data);
@@ -153,7 +155,7 @@ NODE *remover(NODE *root, int valor) {
     return root;
 }
 
-// Função para buscar um valor na árvore
+// FunÃ§Ã£o para buscar um valor na Ã¡rvore
 NODE *buscar(NODE *root, int valor) {
     if (root == NULL || root->data == valor) {
         return root;
@@ -165,17 +167,17 @@ NODE *buscar(NODE *root, int valor) {
     }
 }
 
-// Função para calcular a altura da árvore
+// FunÃ§Ã£o para calcular a altura da Ã¡rvore
 int calcularAltura(NODE *root) {
     if (root == NULL) {
-        return -1; // Árvore vazia tem altura -1
+        return -1; // Ãrvore vazia tem altura -1
     }
     int alturaEsquerda = calcularAltura(root->left);
     int alturaDireita = calcularAltura(root->right);
     return (alturaEsquerda > alturaDireita ? alturaEsquerda : alturaDireita) + 1;
 }
 
-// Função para encontrar o menor valor em uma subárvore
+// FunÃ§Ã£o para encontrar o menor valor em uma subÃ¡rvore
 NODE *encontrarMinimo(NODE *root) {
     while (root->left != NULL) {
         root = root->left;
@@ -183,7 +185,7 @@ NODE *encontrarMinimo(NODE *root) {
     return root;
 }
 
-// Travessia Pré-ordem
+// Travessia PrÃ©-ordem
 void preOrder(NODE *root) {
     if (root != NULL) {
         printf("%d ", root->data);
@@ -201,7 +203,7 @@ void inOrder(NODE *root) {
     }
 }
 
-// Travessia Pós-ordem
+// Travessia PÃ³s-ordem
 void postOrder(NODE *root) {
     if (root != NULL) {
         postOrder(root->left);
@@ -232,7 +234,7 @@ void breadthFirstSearch(NODE *root) {
     }
 }
 
-// Funções auxiliares para fila
+// FunÃ§Ãµes auxiliares para fila
 QUEUE *criarFila() {
     QUEUE *fila = (QUEUE *)malloc(sizeof(QUEUE));
     fila->front = NULL;
